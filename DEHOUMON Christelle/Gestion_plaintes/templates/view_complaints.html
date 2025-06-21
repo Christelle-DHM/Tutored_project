@@ -1,0 +1,71 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Consulter les plaintes{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6 text-center">Liste des plaintes</h2>
+
+<!-- Bouton d'export en PDF -->
+<div class="text-center mb-6" data-aos="zoom-in">
+    <a href="{{ url_for('export_all_complaints_pdf') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full transition">
+        📄 Exporter toutes les plaintes en PDF
+    </a>
+</div>
+
+<!-- Cartes de plaintes -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    {% for c in complaints.items %}
+    <div class="bg-white shadow rounded-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:scale-105" data-aos="fade-up">
+        <div class="p-6">
+            {% if c.is_priority %}
+            <div class="flex items-center mb-2">
+                <span class="text-red-600 font-bold text-lg">🚨 PRIORITAIRE</span>
+            </div>
+            {% endif %}
+            <p><strong>ID :</strong> {{ c.id }}</p>
+            <p><strong>Nom :</strong> {{ c.first_name }} {{ c.last_name }}</p>
+            <p><strong>ID Étudiant :</strong> {{ c.student_id }}</p>
+            <p><strong>Bâtiment :</strong> {{ c.building_number }}</p>
+            <p><strong>Description :</strong> {{ c.description }}</p>
+            <p><strong>Catégorie :</strong> {{ c.complaint_type }}</p>
+            <p><strong>Statut :</strong>
+                {% if c.status == 'traité' %}
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-green-100 text-green-800">✅ Traitée</span>
+                {% else %}
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-red-100 text-red-800">❌ Non traitée</span>
+                {% endif %}
+            </p>
+            <p><strong>Date soumise :</strong> {{ c.date_submitted.strftime('%d/%m/%Y %H:%M') }}</p>
+
+            <!-- Boutons -->
+            <div class="mt-4 flex space-x-3">
+                <form method="POST" action="{{ url_for('change_status', complaint_id=c.id) }}" class="inline">
+                    <select name="status" class="border rounded px-2 py-1 text-sm" onchange="this.form.submit()">
+                        <option value="non traité" {% if c.status == 'non traité' %}selected{% endif %}>Non traité</option>
+                        <option value="en cours" {% if c.status == 'en cours' %}selected{% endif %}>En cours</option>
+                        <option value="traité" {% if c.status == 'traité' %}selected{% endif %}>Traité</option>
+                    </select>
+                </form>
+                <a href="{{ url_for('export_one_complaint_pdf', complaint_id=c.id) }}"
+                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm">
+                    PDF
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+<div class="mt-8 flex justify-center space-x-2" data-aos="fade-up" data-aos-delay="300">
+    {% for p in complaints.iter_pages() %}
+        {% if p %}
+            <a href="{{ url_for('view_complaints', page=p) }}" class="px-4 py-2 border rounded-full hover:bg-blue-100 transition">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Retour -->
+<p class="text-center mt-6">
+    <a href="{{ url_for('admin_index') }}" class="text-blue-600 hover:text-blue-800 underline">← Retour</a>
+</p>
+{% endblock %}
+

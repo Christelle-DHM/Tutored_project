@@ -1,0 +1,35 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Catégories de plaintes{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6 text-center">Filtrer par catégorie</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    {% for category, count in categories %}
+    <div class="bg-white shadow rounded-xl p-6 hover:shadow-lg transition-shadow" data-aos="fade-up">
+        <div class="text-center">
+            <h3 class="text-xl font-semibold mb-2">{{ category }}</h3>
+            <p class="text-3xl font-bold text-blue-600 mb-4">{{ count }}</p>
+            <p class="text-gray-600 mb-4">plainte(s)</p>
+
+            {% if category == "Harcèlement" %}
+            <div class="mb-3">
+                <span class="text-red-600 font-bold">🚨 PRIORITAIRE</span>
+            </div>
+            {% endif %}
+
+            <a href="{{ url_for('filter_complaints_by_category', category=category) }}"
+               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition">
+                Voir les plaintes
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="text-center mt-8">
+    <a href="{{ url_for('admin_dashboard') }}" class="text-blue-600 hover:text-blue-800 underline">
+        ← Retour au tableau de bord
+    </a>
+</div>
+{% endblock %}
+

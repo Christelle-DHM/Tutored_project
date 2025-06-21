@@ -1,0 +1,43 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Accueil utilisateur{% endblock %}
+{% block content %}
+<section class="text-center mb-10">
+    <h2 class="text-3xl font-extrabold text-purple-700 mb-4" data-aos="fade-up">
+        Bienvenue dans la gestion des plaintes étudiantes
+    </h2>
+    <p class="font-bold text-lg max-w-2xl mx-auto text-gray-600" data-aos="fade-up" data-aos-delay="300">
+        Trop de Stress? Pas d'Ecoute?
+    </p>
+    <p class="font-bold text-lg max-w-2xl mx-auto text-gray-600" data-aos="fade-up" data-aos-delay="500">
+        Clique On Exécute
+    </p>
+</section>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <a href="{{ url_for('add_complaint') }}" class="group bg-white p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" data-aos="fade-right">
+        <i class="fas fa-pencil-alt text-4xl text-blue-600 mb-4 group-hover:rotate-6 transition-transform"></i>
+        <h3 class="text-xl font-semibold">Soumettre une plainte</h3>
+    </a>
+
+    <a href="{{ url_for('track_complaint') }}" class="group bg-white p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" data-aos="fade-left">
+        <i class="fas fa-search-location text-4xl text-purple-600 mb-4"></i>
+        <h3 class="text-xl font-semibold">Suivre ma plainte</h3>
+    </a>
+</div>
+
+<!-- Description -->
+<div class="mt-12 text-center max-w-3xl mx-auto" data-aos="zoom-in" data-aos-delay="700">
+    <p class="text-lg font-bold text-purple-700">
+        Nous sommes là pour vous écouter. Votre voix compte pour nous.
+    </p>
+
+     <p class="text-lg font-bold text-purple-800">
+        Votre environnement d'étude, notre priorité
+    </p>
+</div>
+
+<!-- Icône flottante -->
+<div class="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg" data-aos="fade-left" data-aos-offset="0">
+    <i class="fas fa-exclamation-circle text-2xl"></i>
+</div>
+{% endblock %}

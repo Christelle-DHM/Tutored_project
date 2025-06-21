@@ -1,0 +1,47 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Suivre vos plaintes{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg" data-aos="zoom-in">
+    <h2 class="text-2xl font-bold mb-6 text-center">Suivre mes plaintes</h2>
+
+    <form method="post" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Entrez votre ID étudiant</label>
+            <input type="text" name="student_id" required class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200">
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-full shadow transition transform hover:scale-105">
+            Rechercher
+        </button>
+    </form>
+</div>
+
+<!-- Messages -->
+{% if error %}
+    <p class="text-red-600 text-center mt-4">{{ error }}</p>
+{% endif %}
+
+<!-- Résultats -->
+{% if complaints %}
+    <h3 class="text-xl font-semibold mt-8 mb-4 text-center">Vos plaintes</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {% for c in complaints %}
+        <div class="bg-white shadow rounded-xl p-6" data-aos="fade-up">
+            <p><strong>ID :</strong> {{ c.id }}</p>
+            <p><strong>Nom :</strong> {{ c.first_name }} {{ c.last_name }}</p>
+            <p><strong>ID Étudiant :</strong> {{ c.student_id }}</p>
+            <p><strong>Bâtiment :</strong> {{ c.building_number }}</p>
+            <p><strong>Description :</strong> {{ c.description }}</p>
+            <p><strong>Statut :</strong>
+                {% if c.status == 'traité' %}
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-green-100 text-green-800">✅ Traitée</span>
+                {% else %}
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-red-100 text-red-800">❌ Non traitée</span>
+                {% endif %}
+            </p>
+            <p><strong>Date soumise :</strong> {{ c.date_submitted.strftime('%d/%m/%Y %H:%M') }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

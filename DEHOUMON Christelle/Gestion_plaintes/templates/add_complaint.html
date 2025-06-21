@@ -1,0 +1,33 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Soumettre une plainte{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-xl" data-aos="zoom-in">
+    <h2 class="text-2xl font-bold mb-6 text-center">Soumettre une plainte</h2>
+    <form method="post" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Prénom</label>
+            <input type="text" name="first_name" required class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Nom</label>
+            <input type="text" name="last_name" required class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">ID Étudiant</label>
+            <input type="text" name="student_id" required class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Bâtiment</label>
+            <input type="text" name="building_number" required class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea name="description" rows="5" required class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200 focus:border-blue-500"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded-full shadow-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105">
+            Soumettre
+        </button>
+    </form>
+</div>
+{% endblock %}

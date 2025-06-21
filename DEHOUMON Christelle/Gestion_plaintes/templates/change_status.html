@@ -1,0 +1,21 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Modifier le statut{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg" data-aos="zoom-in">
+    <h2 class="text-2xl font-bold mb-6 text-center">Modifier le statut de la plainte</h2>
+
+    <form method="post" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Statut actuel</label>
+            <select name="status" class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-200">
+                <option value="traité" {% if complaint.status == 'traité' %}selected{% endif %}>traité</option>
+                <option value="non traité" {% if complaint.status != 'traité' %}selected{% endif %}>non traité</option>
+            </select>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full shadow transition transform hover:scale-105">
+            Enregistrer
+        </button>
+    </form>
+</div>
+{% endblock %}

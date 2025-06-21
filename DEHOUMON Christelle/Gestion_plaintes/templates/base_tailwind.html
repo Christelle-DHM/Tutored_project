@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Gestion des plaintes{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css"  rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            AOS.init();
+        });
+    </script>
+</head>
+<body class="bg-purple-100 text-gray-900 font-sans">
+
+<div class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-neutral-50 shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+            <div class="flex items-center space-x-3">
+                <img src="{{ url_for('static', filename='images/university-logo.png') }}" alt="Logo Université" class="h-10">
+                <h1 class="text-xl font-bold text-black-700">Gestion des Plaintes Étudiantes</h1>
+            </div>
+
+            <nav class="space-x-6">
+                {% if session.admin_logged_in %}
+                    <a href="{{ url_for('admin_index') }}" class="hover:text-purple-900 transition">Accueil</a>
+                    <a href="{{ url_for('admin_dashboard') }}" class="hover:text-purple-900 transition">Tableau de bord</a>
+                    <a href="{{ url_for('view_complaints') }}" class="hover:text-purple-900 transition">Consulter les plaintes</a>
+                    <a href="{{ url_for('logout') }}" class="text-red-600 hover:text-red-800 transition">Déconnexion</a>
+                {% else %}
+                    <a href="{{ url_for('index_user') }}" class="hover:text-purple-900 transition">Accueil</a>
+                    <a href="{{ url_for('add_complaint') }}" class="hover:text-purple-900 transition">Soumettre une plainte</a>
+                    <a href="{{ url_for('track_complaint') }}" class="hover:text-purple-900 transition">Suivre ma plainte</a>
+                    <a href="{{ url_for('login') }}" class="hover:text-green-600 transition">Connexion Admin</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash message -->
+    <main class="flex-grow py-8 px-4">
+        <div class="max-w-6xl mx-auto">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded shadow-md animate-pulse">
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-inner p-4 text-center text-sm text-gray-500">
+        &copy; {{ current_year }} - Gestion des plaintes étudiantes • Burkina Institute of Technology
+    </footer>
+
+</div>
+
+</body>
+</html>

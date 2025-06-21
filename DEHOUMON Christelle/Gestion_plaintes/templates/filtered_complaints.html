@@ -1,0 +1,50 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Plaintes {{ status }}{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6 text-center">Plaintes {{ status }}</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    {% for c in complaints %}
+    <div class="bg-white shadow rounded-xl p-6" data-aos="fade-up">
+        {% if c.is_priority %}
+        <div class="flex items-center mb-2">
+            <span class="text-red-600 font-bold text-lg">🚨 PRIORITAIRE</span>
+        </div>
+        {% endif %}
+        <p><strong>ID :</strong> {{ c.id }}</p>
+        <p><strong>Nom :</strong> {{ c.first_name }} {{ c.last_name }}</p>
+        <p><strong>ID Étudiant :</strong> {{ c.student_id }}</p>
+        <p><strong>Bâtiment :</strong> {{ c.building_number }}</p>
+        <p><strong>Description :</strong> {{ c.description }}</p>
+        <p><strong>Catégorie :</strong> {{ c.complaint_type }}</p>
+        <p><strong>Date soumise :</strong> {{ c.date_submitted.strftime('%d/%m/%Y %H:%M') }}</p>
+        <p><strong>Statut :</strong>
+            <span class="px-2 py-1 rounded text-sm {% if c.status == 'traité' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                {{ c.status }}
+            </span>
+        </p>
+
+        <div class="mt-4 flex gap-2">
+            <form method="POST" action="{{ url_for('change_status', complaint_id=c.id) }}" class="inline">
+                <select name="status" class="border rounded px-2 py-1 text-sm" onchange="this.form.submit()">
+                    <option value="non traité" {% if c.status == 'non traité' %}selected{% endif %}>Non traité</option>
+                    <option value="en cours" {% if c.status == 'en cours' %}selected{% endif %}>En cours</option>
+                    <option value="traité" {% if c.status == 'traité' %}selected{% endif %}>Traité</option>
+                </select>
+            </form>
+            <a href="{{ url_for('export_one_complaint_pdf', complaint_id=c.id) }}"
+               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm">
+                PDF
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="text-center mt-6">
+    <a href="{{ url_for('admin_dashboard') }}" class="text-blue-600 hover:text-blue-800 underline">
+        ← Retour au tableau de bord
+    </a>
+</div>
+{% endblock %}
+

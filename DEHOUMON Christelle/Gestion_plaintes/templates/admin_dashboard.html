@@ -1,0 +1,57 @@
+{% extends "base_tailwind.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-8 text-center">Tableau de bord administrateur</h2>
+
+<!-- Statistiques -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <a href="{{ url_for('filter_complaints_by_status', status='traité') }}" class="bg-gradient-to-br from-green-100 to-green-500 text-white p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 " data-aos="flip-left">
+        <h3 class="text-lg font-medium">Plaintes traitées</h3>
+        <p class="text-4xl font-bold text-green-700">{{ resolved }}</p>
+    </a>
+
+    <a href="{{ url_for('filter_complaints_by_status', status='non traité') }}" class="bg-gradient-to-br from-red-100 to-red-500 text-white p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" data-aos="flip-up">
+        <h3 class="text-lg font-medium">En attente</h3>
+        <p class="text-4xl font-bold text-red-700">{{ pending }}</p>
+    </a>
+
+    <a href="{{ url_for('view_categories') }}" class="bg-gradient-to-br from-blue-100 to-blue-500 text-white p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" data-aos="flip-right">
+        <h3 class="text-lg font-medium">Total des plaintes</h3>
+        <p class="text-4xl font-bold text-blue-700">{{ total }}</p>
+    </a>
+</div>
+
+<!-- Graphique : Par type et bâtiment -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="bg-white shadow rounded-xl p-6" data-aos="fade-up">
+        <h2 class="text-xl font-semibold mb-4">Par type de plainte</h2>
+        <ul class="space-y-2">
+            {% for t in by_type %}
+            <li class="flex justify-between border-b pb-2">
+                <span>{{ t[0] }}</span>
+                <span class="font-medium bg-blue-100 px-3 py-1 rounded-full">{{ t[1] }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="bg-white shadow rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="text-xl font-semibold mb-4">Par bâtiment</h2>
+        <ul class="space-y-2">
+            {% for b in by_building %}
+            <li class="flex justify-between border-b pb-2">
+                <span>Bâtiment {{ b[0] }}</span>
+                <span class="font-medium bg-blue-100 px-3 py-1 rounded-full">{{ b[1] }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Bouton principal -->
+<div class="text-center mt-6">
+    <a href="{{ url_for('view_complaints') }}" class="inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-6 rounded-full shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-transform duration-300 transform hover:scale-105">
+        Voir toutes les plaintes
+    </a>
+</div>
+{% endblock %}
